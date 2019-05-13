@@ -39,5 +39,4 @@ def post():
             return("Se ha detectado que se esta revelando información sensible, puede cambiar el mensaje si lo desea ")
     elapsed_time = time.time() - start_time
     print(str(elapsed_time))
-    hola
 app.run(host='localhost', port=5000)
