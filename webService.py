@@ -1,7 +1,7 @@
 #!flask/bin/python
 from flask import Flask
 import time
-#from flask_cors import CORS
+from flask_cors import CORS
 from flask import Flask
 from flask import request
 import Spacy
@@ -13,7 +13,7 @@ import datosPersonalesIdentificables
 import detallesDeRelacion
 import tagVectorComparison
 app = Flask(__name__)
-#CORS(app)
+CORS(app)
 @app.route('/contentAnalysis', methods=['POST'])
 def post():
     start_time = time.time()
