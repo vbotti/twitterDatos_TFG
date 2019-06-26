@@ -51,12 +51,24 @@ def getLocations(tweetList):
         tweetText = re.sub(r'…\w*', '', tweetText)
         tweetText = re.sub(r'[^\w]', ' ', tweetText)
 
-        doc = nlp(tweetText)
-        tags = {}
 
+
+        doc = nlp(tweetText)
+        #var = 0
         for ent in doc.ents:
             if ent.label_ == 'LOC' or ent.label_ == 'GPE':
                 tweet[2][0] = 1
+        #        var = 1
                 continue
+        #if var == 0:
+        #    doc = nlp(tweetText.title())
+        #    for ent in doc.ents:
+        #       if ent.label_ == 'LOC' or ent.label_ == 'GPE':
+        #           tweet[2][0] = 1
+        #           continue
+
+        #print(tweetList)
 
     return tweetList
+
+getLocations([[123456, 'me voy de viaje a madrid', [0, 0, 0, 0, 0, 0, 0]]])

@@ -22,5 +22,6 @@
 'ginebra',
 'vodka',
 'lsd',
-'botellon'
+'botellon',
+'fumar'
 ]

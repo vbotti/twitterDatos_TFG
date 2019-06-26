@@ -6,11 +6,12 @@ import insultos
 import datosPersonalesIdentificables
 import detallesDeRelacion
 import tagVectorComparison
+import tf_server
 from time import time
 
 Inicio = time()
 
-with open("/Users/victorbotti/Desktop/BD_sqlite/allTweets.json", 'r') as fichero:
+'''''with open("/Users/victorbotti/Desktop/BD_sqlite/allTweets.json", 'r') as fichero:
     cont = fichero.read()
     arr = eval(cont)
     lista = arr
@@ -18,12 +19,14 @@ with open("/Users/victorbotti/Desktop/BD_sqlite/allTweets.json", 'r') as fichero
         #tweet.append([0,0,0,0,0,0,0,0,0,0])
         tweet.append([0, 0, 0, 0, 0, 0, 0])
         tweet.append(tagVectorComparison.iniTagVector(tweet[0]))
-    #lista = lista[:20]
+    #lista = lista[:20]'''''
+
 
 termina_cargaDatos = time() - Inicio
 print("Termina la carga de datos: " + str(termina_cargaDatos))
 
 inicio_Spacy = time()
+lista = [[123456, 'RT @MoratBanda: Nada mejor que viajar con amigos. @asolermusic https://t.co/MRCOPzPIbc', [0, 0, 0, 0, 0, 0, 0]]]
 lista = Spacy.getLocations(lista)
 termina_Spacy = time() - inicio_Spacy
 print("Tiempo localización: " + str(termina_Spacy))
@@ -39,7 +42,8 @@ termina_drogas = time() - inicio_drogas
 print("tiempo drogas: " + str(termina_drogas))
 
 inicio_sentiment = time()
-lista = SentimentAnalysis.sentiment(lista)
+#lista = SentimentAnalysis.sentiment(lista)
+lista = tf_server.sentimentAnalysis(lista)
 termina_sentiment = time() - inicio_sentiment
 print("tiempo sentiment: " + str(termina_sentiment))
 
@@ -65,8 +69,10 @@ for tweet in lista:
     #acuerdo = tagVectorComparison.vectorComparisonTweet(tweet)
     #tweet.append("Nivel de acuerdo = " + str(acuerdo) + "%")
     # print(lista)
+    print(lista)
 
-tagVectorComparison.precisionAndRecall(lista)
+
+#tagVectorComparison.precisionAndRecall(lista)
 f = open("/Users/victorbotti/Desktop/categorizar.json", "w")
 for element in lista:
     f.write(str(element) + "\n")
