@@ -78,6 +78,7 @@ def filtradoPorEtiquetas(): #Se le pasan todos los tweets, y los guarda en fiche
                 l = devuelveLista.get(tupla[0])
                 l.append(tweetinsertar)
 
+
     f = open("/Users/victorbotti/Desktop/BD_sqlite/categorias/TweetsCategoria0.json", 'a')
     f.write(str(listaCat0))
     f.close()
@@ -111,7 +112,7 @@ def filtradoPorEtiquetas(): #Se le pasan todos los tweets, y los guarda en fiche
 
 
 #filtradoPorEtiquetas()
-getAllTweets()
+#getAllTweets()
 
 
 

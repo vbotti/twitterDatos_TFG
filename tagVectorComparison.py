@@ -34,6 +34,7 @@ def iniTagVector(id):
 
     return vector
 
+
 def vectorComparisonTweet(tweet):
     clasificado = tweet[2]
     etiquetado = tweet[3]
@@ -52,6 +53,7 @@ def vectorComparisonAllTweets(tweetList):
         clasificado = tweet[2]
         etiquetado = tweet[3]
         for i in [0,1,2,3,4,5,6]:
+
             if clasificado[i] == etiquetado[i]:
                 cont = cont + 1
     res = (cont/numEtiquetas) * 100

@@ -9,6 +9,7 @@ import insultos
 import datosPersonalesIdentificables
 import detallesDeRelacion
 import tf_server
+import youtubeLinkScrapper
 
 class S(BaseHTTPRequestHandler):
     def _set_headers(self):
@@ -50,69 +51,50 @@ class S(BaseHTTPRequestHandler):
         lista = insultos.insultos(lista)
         lista = detallesDeRelacion.relaciones(lista)
         lista = datosPersonalesIdentificables.datos(lista)
-        if msg_extracted['type'] == "categories":
-            print(lista)
-            vectorCategorias = [0,1,2,3,4,5,6]
-            categorias_encontradas = "Se está revelando información sensible del tipo: "
-            for tweet in lista:
-                if all(v == 0 for v in tweet[2]):
-                    tweet[2][6] = 1
-                    self.wfile.write(bytes(' ', "utf-8"))
-                else:
-                    for x in vectorCategorias:
-                        if tweet[2][x] == 1:
-                            if x == 0:
-                                categorias_encontradas += "Ubicación,"
-                            elif x == 1:
-                                categorias_encontradas += "Enfermedades,"
-                            elif x == 2:
-                                categorias_encontradas += "Drogas,"
-                            elif x == 3:
-                                categorias_encontradas += "Emociones,"
-                            elif x == 4:
-                                categorias_encontradas += "Insultos,"
-                            elif x == 5:
-                                categorias_encontradas += "Detalles personales,"
-                            elif x == 6:
-                                categorias_encontradas += "Neutro"
 
-                    self.wfile.write(bytes(categorias_encontradas, "utf-8"))
-        elif msg_extracted['type'] == "sensible" :
-            print(lista)
-            vectorCategorias = [0, 1, 2, 3, 4, 5, 6]
-            sensibilidad = 0
-            for tweet in lista:
-                if all(v == 0 for v in tweet[2]):
-                    tweet[2][6] = 1
-                    self.wfile.write(bytes(' ', "utf-8"))
-                else:
-                    for x in vectorCategorias:
-                        if tweet[2][x] == 1:
-                            if x == 0:
-                                sensibilidad += 0.5
-                            elif x == 1:
-                                sensibilidad += 0.3
-                            elif x == 2:
-                                sensibilidad += 0.4
-                            elif x == 3:
-                                sensibilidad += 0.2
-                            elif x == 4:
-                                sensibilidad += 0.6
-                            elif x == 5:
-                                sensibilidad += 0.8
-                            elif x == 6:
-                                sensibilidad += 0
+        video = youtubeLinkScrapper.youtubeVideo(lista[0][1])
 
-                    if sensibilidad == 0.0:
-                        sensibilidad_encontrada = "El grado de sensibilidad en el mensaje es nulo"
-                    elif 0 > sensibilidad <= 4.0:
-                        sensibilidad_encontrada = "El grado de sensibilidad en el mensaje es bajo"
-                    elif 4.0 > sensibilidad <= 6.0:
-                        sensibilidad_encontrada = "El grado de sensibilidad en el mensaje es medio"
-                    elif sensibilidad > 6.0:
-                        sensibilidad_encontrada = "El grado de sensibilidad en el mensaje es alto"
+        print(lista)
+        vectorCategorias = [0,1,2,3,4,5,6]
+        categorias_encontradas = "Se está revelando información sensible del tipo: "
+        for tweet in lista:
+            if all(v == 0 for v in tweet[2]):
+                tweet[2][6] = 1
+                self.wfile.write(bytes(' ', "utf-8"))
+            else:
+                sensibilidad = 0
+                for x in vectorCategorias:
+                    if tweet[2][x] == 1:
+                        if x == 0:
+                            categorias_encontradas += "Ubicación,"
+                            sensibilidad += 0.5
+                        elif x == 1:
+                            categorias_encontradas += "Enfermedades,"
+                            sensibilidad += 0.3
+                        elif x == 2:
+                            categorias_encontradas += "Drogas,"
+                            sensibilidad += 0.4
+                        elif x == 3:
+                            categorias_encontradas += "Emociones,"
+                            sensibilidad += 0.2
+                        elif x == 4:
+                            categorias_encontradas += "Insultos,"
+                            sensibilidad += 0.6
+                        elif x == 5:
+                            categorias_encontradas += "Detalles personales,"
+                            sensibilidad += 0.8
+                        elif x == 6:
+                            categorias_encontradas += "Neutro"
+                            sensibilidad += 0
 
-                    self.wfile.write(bytes(sensibilidad_encontrada, "utf-8"))
+                if 0 > sensibilidad <= 4.0:
+                    categorias_encontradas += " el grado de sensibilidad es bajo"
+                elif 4.0 > sensibilidad <= 6.0:
+                    categorias_encontradas += " el grado de sensibilidad es medio"
+                elif sensibilidad > 6.0:
+                    categorias_encontradas += " el grado de sensibilidad es alto"
+
+                self.wfile.write(bytes(categorias_encontradas + " " + video, "utf-8"))
 
 
     #app.run(host='localhost', port=5000)

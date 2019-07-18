@@ -11,22 +11,24 @@ from time import time
 
 Inicio = time()
 
-'''''with open("/Users/victorbotti/Desktop/BD_sqlite/allTweets.json", 'r') as fichero:
+with open("/Users/victorbotti/Desktop/BD_sqlite/allTweets.json", 'r') as fichero:
     cont = fichero.read()
     arr = eval(cont)
     lista = arr
+    tagVectorComparison.getCountCategory(lista)
     for tweet in lista:
         #tweet.append([0,0,0,0,0,0,0,0,0,0])
         tweet.append([0, 0, 0, 0, 0, 0, 0])
         tweet.append(tagVectorComparison.iniTagVector(tweet[0]))
-    #lista = lista[:20]'''''
+
+    #lista = lista[:20]
 
 
 termina_cargaDatos = time() - Inicio
 print("Termina la carga de datos: " + str(termina_cargaDatos))
 
 inicio_Spacy = time()
-lista = [[123456, 'RT @MoratBanda: Nada mejor que viajar con amigos. @asolermusic https://t.co/MRCOPzPIbc', [0, 0, 0, 0, 0, 0, 0]]]
+#lista = [[123456, 'RT @MoratBanda: Nada mejor que viajar con amigos. @asolermusic https://t.co/MRCOPzPIbc', [0, 0, 0, 0, 0, 0, 0]]]
 lista = Spacy.getLocations(lista)
 termina_Spacy = time() - inicio_Spacy
 print("Tiempo localización: " + str(termina_Spacy))
@@ -69,7 +71,7 @@ for tweet in lista:
     #acuerdo = tagVectorComparison.vectorComparisonTweet(tweet)
     #tweet.append("Nivel de acuerdo = " + str(acuerdo) + "%")
     # print(lista)
-    print(lista)
+    #print(lista)
 
 
 #tagVectorComparison.precisionAndRecall(lista)
