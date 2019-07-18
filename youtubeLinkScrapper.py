@@ -8,7 +8,7 @@ import tf_server
 import insultos
 import Usuario
 from nostril import nonsense
-APIKey = 'AIzaSyAoqtFFwPZo9d4eBwyg2OzjFTl4mKp3-9Y'
+APIKey = 'apikeyYoutubev3'
 
 
 def youtubeVideo(text, user):
